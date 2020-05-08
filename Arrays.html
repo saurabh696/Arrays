@@ -1,0 +1,241 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        .first{
+              color: black;
+              border-style: solid;
+              border-color: red;
+              background: skyblue;
+              padding: 5px;
+}  
+		}
+
+        .performance {
+            font-size: 19px;
+            color: red;
+}  
+		}
+    </style>
+</head>
+<body>
+<div id="container" class = "container">
+    <label>How many values you need in an array</label><br><br>
+    <input type="text" id="fvalues" name="fvalues"><br><br>
+    <input id='fbtn' type="button" value = "submit">
+</div>
+
+<script>
+document.getElementById('fbtn').addEventListener('click',showValue)
+var mainDiv=document.getElementById('container');
+function showValue(){
+     var b = document.getElementById("fvalues").value;
+     var d=['BubbleSort', 'QuickSort', 'MergeSort']
+     var c=new Array();
+     for(var i = 0 ; i<b;i++){
+        var a = Math.floor(Math.random()*10);
+        c.push(a);
+	 }
+     var div= document.createElement('div')
+     var h1= document.createElement('h1')
+     var h2= document.createElement('h2')
+     var multih2 = document.createElement('h2')
+     var span= document.createElement('span')
+     var span2= document.createElement('span')
+     var ul= document.createElement('ul')
+     var rowInput= document.createElement('input')
+     var colInput= document.createElement('input')
+     var rowcolbtn= document.createElement('input')
+     var rowcoldiv= document.createElement('div')
+     h1.innerHTML="Random Array is : ";
+     h2.innerHTML="Apply sorting: "
+     multih2.innerHTML="Implement Multidimensional array: " 
+     h1.style.color='red';
+     span.className="first"
+     span.innerHTML= c;
+     rowInput.setAttribute("type", 'text')
+     colInput.setAttribute("type", 'text')
+     rowcolbtn.setAttribute("type", 'button')
+     rowcolbtn.id="multibtn";
+     rowInput.id="row";
+     colInput.id="col"
+
+     rowInput.placeholder="enter row";
+     colInput.placeholder="enter colums"
+     rowcoldiv.id="rowcoldiv"
+
+     rowcolbtn.value= "generate multi array"
+     for (i = 0; i < d.length; i++ ) {
+	    li = document.createElement('li'); 
+        a=document.createElement('a'); 
+	    newContent = document.createTextNode(d[i]);
+        a.appendChild(newContent);
+		li.appendChild(a);
+		ul.appendChild(li);
+     };
+     ul.childNodes[0].addEventListener('click', function(){
+            var t0 = performance.now()
+            span.innerHTML=bubble_sort(c);
+            var t1 = performance.now()
+            span2.innerHTML="(Call to bubble sort took " + (t1 - t0) + " milliseconds.)"
+            span2.style.fontSize="18px";
+            h2.appendChild(span2);
+		});
+     ul.childNodes[1].addEventListener('click', function(){
+           var t0 = performance.now()
+           span.innerHTML=quickSort(c);
+            var t1 = performance.now()
+            span2.innerHTML="(Call to quick sort took " + (t1 - t0) + " milliseconds.)"
+		});
+     ul.childNodes[2].addEventListener('click', function(){
+            var t0 = performance.now()
+           span.innerHTML=mergeSort(c);
+            var t1 = performance.now()
+            span2.innerHTML="(Call to mergesort took " + (t1 - t0) + " milliseconds.)" 
+		});
+     mainDiv.appendChild(div);
+     div.appendChild(h1);
+     div.appendChild(h2);
+     div.appendChild(ul);
+     div.appendChild(multih2);
+     div.appendChild(rowInput);
+    div.appendChild(colInput);
+    div.appendChild(rowcolbtn);
+    div.appendChild(rowcoldiv);
+    
+     h1.appendChild(span);
+     function main(){
+         for(var i in d){
+            console.log(d[i]);  
+		}
+	 }
+     function bubble_sort(b){
+     console.log('yes')
+     var n = b.length-1;
+     var x = b;
+ 	 do {
+	 	 swap=false;
+		 for(var i=0;i<n;i++){
+			if(x[i]>x[i+1]){
+				var temp=x[i];
+				x[i]=x[i+1];
+				x[i+1]=temp;
+                swap=true;
+			}
+		 }
+         n--
+	 }
+	 while(swap);
+	 return x;
+ }
+
+ function quickSort(b){
+        if(b.length<=1){
+            return b
+        }else{
+            var left=[];
+            var right=[];
+            var newArray=[];
+            var pivot=b.pop();
+            var length=b.length;
+            for(var i =0; i<length; i++){
+                if(b[i]<=pivot){ //[1,2,3,4,5,1] -> 1<=5
+                    left.push(b[i])
+                }
+                else{
+                    right.push(b[i])
+                }
+            }
+            return newArray.concat(quickSort(left),pivot,quickSort(right));
+        }
+ }
+
+ function mergeSort(b){
+    var middle = Math.floor(b.length/2);
+    var left=b.slice(0,middle);
+    console.log(left);
+    var right = b.slice(middle);
+    return merge(mergeSort(left),mergeSort(right))
+ 
+ }
+
+ function merge(left,right){
+    var result=[];
+    var leftIndex=0;
+    var rightIndex=0;
+
+    while(leftIndex<left.length && righIndex<right.length){
+        if(left[leftIndex]<right[rightIndex]){
+            result.push(left[leftIndex]);
+            leftIndex++;
+            }
+        else{
+             result.push(right[rightIndex]);
+             rightIndex++
+        }
+    }
+    return result
+          .concat(left.slice(leftIndex))
+          .concat(right.slice(rightIndex));
+ }
+
+ document.getElementById("multibtn").addEventListener("click", multiArray)
+
+    
+
+ function multiArray(){
+     var a = document.getElementById('row').value;
+     var b = document.getElementById('col').value;
+     var rowcoldiv = document.getElementById('rowcoldiv');
+     var td = document.getElementById('td');
+     var td=document.createElement('TD'); 
+     
+     td.id="td"
+     console.log(a);
+     console.log(b);
+     var Multidimensionalarray= new Array();
+     for(var i =0; i<b;i++){
+        Multidimensionalarray.push([]);
+        for(var j=Multidimensionalarray[i].length; j<a;j++){
+          var math = Math.floor(Math.random()*10);
+          Multidimensionalarray[i].push(math);
+		}
+	 }
+     console.log(Multidimensionalarray)
+   
+      Multidimensionalarray.map(function(a){
+                 a.map(function(f){  
+                    td=document.createElement('td'); 
+                    td1=document.createElement('td'); 
+                    td.id="dt"
+                    table=document.createElement('table');
+                    tableBody = document.createElement('tbody');
+                    
+                    Multidimensionalarray.forEach(function(Multidimensionalarray1){
+                        tr=document.createElement('tr'); 
+                        Multidimensionalarray1.forEach(function(cellData){
+                            var cell = document.createElement('td');
+                            cell.appendChild(document.createTextNode(cellData));
+                            tr.appendChild(cell);
+						});
+                        tableBody.appendChild(tr);
+                       
+                    });
+                   
+                 });
+                  
+      });   
+      table.appendChild(tableBody);
+      rowcoldiv.appendChild(table);
+     }
+ }
+
+
+
+</script>
+
+</body>
+</html>
